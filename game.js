@@ -9,10 +9,17 @@ class Game{
   }
 
   startLoop(){
-    console.log('loop')
+    
+    this.player = new Player(this.canvas, 3)
+
     const loop = () => {
-      console.log('in the loop')
-      
+
+      if(Math.random() > .9){
+        const y = Math.random() * this.canvas.height
+        this.enemies.push(new Enemy(this.canvas, y))
+      }
+
+      this.checkAllCollisions()
       // Update
       this.updateCanvas()
       // Clear
@@ -25,7 +32,10 @@ class Game{
   }
 
   updateCanvas(){
-
+    this.player.update()
+    this.enemies.forEach(enemy => {
+      enemy.update()
+    })
   }
 
   clearCanvas(){
@@ -33,6 +43,13 @@ class Game{
   }
 
   drawCanvas(){
+    this.player.draw()
+    this.enemies.forEach(enemy => {
+      enemy.draw()
+    })
+  }
 
+  checkAllCollisions(){
+    this.player.checkScreen()
   }
 }
