@@ -8,6 +8,7 @@ const main = () => {
     return main
   }
 
+  // Splash
   const buildSplashScreen = () => {
     const splashScreen = buildDom(`
     <section class="splash-screen">
@@ -15,6 +16,46 @@ const main = () => {
       <button>Start</button>
     </section>
     `)
+
+    const startButton = document.querySelector('button')
+    startButton.addEventListener('click', buildGameScreen)
+  }
+
+  // Game
+  const buildGameScreen = () =>  {
+    const gameScreen = buildDom(`
+      <section class="game-screen">
+        <canvas></canvas>
+      </section>
+    `)
+    
+
+
+    const width = document.querySelector('.game-screen').offsetWidth
+    const height = document.querySelector('.game-screen').offsetHeight
+
+    const canvasElement = document.querySelector('canvas')
+
+    canvasElement.setAttribute('width', width)
+    canvasElement.setAttribute('height', height)
+
+    setTimeout(buildGameOver, 3000)
+
+    const game = new Game(canvasElement)
+    game.startLoop()
+  }
+
+  // Game Over
+  const buildGameOver = () => {
+    const gameOverScreen = buildDom(`
+      <section class="game-over">
+        <h1>Game Over</h1>
+        <button>Restart</button>
+      </section>
+    `)
+
+    const restartButton = document.querySelector('button')
+    restartButton.addEventListener('click', buildGameScreen)
   }
 
   buildSplashScreen()
