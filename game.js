@@ -6,6 +6,7 @@ class Game{
     this.ctx = this.canvas.getContext('2d')
     this.player
     this.enemies = []
+    this.isGameOver = false
   }
 
   startLoop(){
@@ -14,7 +15,7 @@ class Game{
 
     const loop = () => {
 
-      if(Math.random() > .9){
+      if(Math.random() > 0.9){
         const y = Math.random() * this.canvas.height
         this.enemies.push(new Enemy(this.canvas, y))
       }
@@ -26,7 +27,9 @@ class Game{
       this.clearCanvas()
       // Draw
       this.drawCanvas()
-      window.requestAnimationFrame(loop)
+      if(!this.isGameOver){
+        window.requestAnimationFrame(loop)
+      }
     }
     window.requestAnimationFrame(loop)
   }
@@ -51,5 +54,23 @@ class Game{
 
   checkAllCollisions(){
     this.player.checkScreen()
+    this.enemies.forEach((enemy, index) => {
+      if(this.player.checkCollisionEnemy(enemy)){
+        console.log('dead')
+        this.player.lostLive()
+        this.enemies.splice(index, 1)
+        console.log(index)
+        console.log(this.player.lives)
+        if(this.player.lives === 0){
+          this.onGameOver()
+          this.isGameOver = true
+        }
+      }
+    })
+    this.player.checkScreen()
+  }
+
+  gameOverCallback(callback){
+    this.onGameOver = callback
   }
 }

@@ -42,6 +42,9 @@ const main = () => {
     //setTimeout(buildGameOver, 3000)
 
     const game = new Game(canvasElement)
+
+    game.gameOverCallback(buildGameOver)
+
     game.startLoop()
 
     const setPlayerDirection = (event) => {

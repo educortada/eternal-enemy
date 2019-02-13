@@ -31,4 +31,21 @@ class Player{
       this.direction = -1
     }
   }
+
+  checkCollisionEnemy(enemy){
+    const collideRight = this.x + this.size / 2 > enemy.x - enemy.size/2
+    const collideLeft = this.x - this.size / 2 > enemy.x + enemy.size/2
+    const collideTop = this.y - this.size / 2 < enemy.y + enemy.size/2
+    const collideBotton = this.y + this.size / 2 > enemy.y - enemy.size/2
+
+    if(collideRight && collideLeft && collideTop && collideBotton){
+      return true
+    } else{
+      return false
+    }
+  }
+
+  lostLive(){
+    this.lives --
+  }
 }
